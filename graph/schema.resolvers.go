@@ -6,9 +6,9 @@ package graph
 import (
 	"context"
 	"fmt"
-	"github.com/varukashotta/easyacc/cmd/convertor"
 	"math/rand"
 
+	"github.com/varukashotta/easyacc/cmd/convertor"
 	"github.com/varukashotta/easyacc/graph/generated"
 	"github.com/varukashotta/easyacc/graph/model"
 )
@@ -27,9 +27,8 @@ func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
 	return r.todos, nil
 }
 
-func (r *queryResolver) Hello(ctx context.Context) (string, error) {
-	convertor.Run()
-	return "Hello World", nil
+func (r *queryResolver) Hello(ctx context.Context) (interface{}, error) {
+	return convertor.Run(), nil
 }
 
 func (r *todoResolver) User(ctx context.Context, obj *model.Todo) (*model.User, error) {

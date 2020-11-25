@@ -8,11 +8,11 @@ import (
 	"os"
 )
 
-func Run() {
+func Run() interface{} {
 	jsonFile, err := os.Open("/Users/alka/Desktop/accounting/server/assets/results.json")
 	if err != nil {
 		fmt.Println(err)
-		return
+		return nil
 	}
 	fmt.Println("Successfully Opened users.json")
 	// defer the closing of our jsonFile so that we can parse it later on
@@ -73,7 +73,7 @@ func Run() {
 
 	}
 
-fmt.Println(rowIndex)
+	return rowIndex
 }
 
 

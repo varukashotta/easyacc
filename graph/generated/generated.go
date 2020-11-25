@@ -71,7 +71,7 @@ type MutationResolver interface {
 }
 type QueryResolver interface {
 	Todos(ctx context.Context) ([]*model.Todo, error)
-	Hello(ctx context.Context) (string, error)
+	Hello(ctx context.Context) (interface{}, error)
 }
 type TodoResolver interface {
 	User(ctx context.Context, obj *model.Todo) (*model.User, error)
@@ -227,6 +227,7 @@ var sources = []*ast.Source{
 	{Name: "graph/schema.graphqls", Input: `# GraphQL schema example
 #
 # https://gqlgen.com/getting-started/
+scalar Any
 
 type Todo {
   id: ID!
@@ -235,6 +236,7 @@ type Todo {
   user: User!
 }
 
+
 type User {
   id: ID!
   name: String!
@@ -242,7 +244,7 @@ type User {
 
 type Query {
   todos: [Todo!]!
-  hello: String!
+  hello: Any!
 }
 
 input NewTodo {
@@ -435,9 +437,9 @@ func (ec *executionContext) _Query_hello(ctx context.Context, field graphql.Coll
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(interface{})
 	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return ec.marshalNAny2interface(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query___type(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -2260,6 +2262,27 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 // endregion **************************** object.gotpl ****************************
 
 // region    ***************************** type.gotpl *****************************
+
+func (ec *executionContext) unmarshalNAny2interface(ctx context.Context, v interface{}) (interface{}, error) {
+	res, err := graphql.UnmarshalAny(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNAny2interface(ctx context.Context, sel ast.SelectionSet, v interface{}) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := graphql.MarshalAny(v)
+	if res == graphql.Null {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+	}
+	return res
+}
 
 func (ec *executionContext) unmarshalNBoolean2bool(ctx context.Context, v interface{}) (bool, error) {
 	res, err := graphql.UnmarshalBoolean(v)
