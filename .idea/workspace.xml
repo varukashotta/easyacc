@@ -21,7 +21,8 @@
   <component name="ChangeListManager">
     <list default="true" id="4c31b93d-799d-478a-a9bc-eac387b6bf5e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/convertor/ai.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/convertor/ai.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/convertor/ai.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/ai.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graph/schema.resolvers.go" beforeDir="false" afterPath="$PROJECT_DIR$/graph/schema.resolvers.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
