@@ -1,4 +1,4 @@
-package convertor
+package cmd
 
 import (
 	"encoding/json"
@@ -9,7 +9,7 @@ import (
 )
 
 func Run() interface{} {
-	jsonFile, err := os.Open("/Users/alka/Desktop/accounting/server/assets/results.json")
+	jsonFile, err := os.Open("../../assets/results.json")
 	if err != nil {
 		fmt.Println(err)
 		return nil
